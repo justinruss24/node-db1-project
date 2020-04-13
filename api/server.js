@@ -44,7 +44,26 @@ server.post("/accounts/:id", (req, res) => {
     .catch(error => {
         res.status(500).json({ error: error.message })
     })
-})
+});
+
+server.put("accounts/:id", (req, res) => {
+    db("accounts")
+    .where({ id: req.params.id })
+    .update(req.body)
+    .then(count => {
+        if (count) {
+            res.status(200).json({ updated: count })
+        } else {
+            res.status(404).json({ message: "account not found" })
+        }
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json( { error: error.message })
+    })
+});
+
+
 
 
 
