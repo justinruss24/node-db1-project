@@ -63,9 +63,18 @@ server.put("accounts/:id", (req, res) => {
     })
 });
 
-
-
-
+server.delete("/accounts/:id", (req, res) => {
+    db("accounts")
+    .where({ id: req.params.id })
+    .del()
+    .then(account => {
+        if (account) {
+            res.status(200).json({ data: account })
+        } else {
+            res.status(500).json({ error: error.message })
+        }
+    });
+})
 
 
 module.exports = server;
